@@ -1,0 +1,48 @@
+#include<iostream>
+#include<string>
+using namespace std;
+//声明一个房间类
+class  building;
+//创建好基友类
+class Goodgay 
+{
+public:
+	Goodgay() ;
+	void visit();
+	building * m_building;
+};
+
+class building
+{
+	friend class Goodgay;//声明之后 外部类可访问私有权限，即卧室；
+public:
+	building() ;
+	string sittingRoom;
+private:
+	string bedRoom;
+};
+//类外实现building类中构造函数
+building::building()
+{
+	this->bedRoom = "卧室";
+	this->sittingRoom = "客厅";
+}
+//类外实现Goodgay类中构造函数
+Goodgay::Goodgay()
+{
+	this->m_building = new building;
+}
+//类外实现visit
+void Goodgay::visit()
+{
+	cout << "好基友正在访问 " << this->m_building->sittingRoom<<endl;
+	cout << "好基友正在访问 " << this->m_building->bedRoom << endl;
+}
+
+int main()
+{
+	Goodgay c1;
+	c1.visit();
+	
+	
+}
