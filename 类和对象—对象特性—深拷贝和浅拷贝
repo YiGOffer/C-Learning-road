@@ -13,6 +13,23 @@ public:
 		m_age = age;
 		cout << "有参构造函数调用" << endl;
 	}
+	
+	
+	
+	/******************************************/
+	//为什么要传入引用即Person &p，因为如果main代码中Person p3(p2)相当于Person p3=p2,调用了拷贝构造函数，就相当于Person p=p2 又调用了拷贝构造函数即Person p=p2 无限递归出错
+	如果这些知识你都能理解。下面就来解释一下为什么值传递会无限递归!
+如果复制构造函数是这样的 ： 
+test(test t);
+我们调用
+test ort;
+test a(ort）; --> test.a(test t=ort)==test.a(test t(ort))
+              -->test.a(test t(test t = ort))
+                 ==test.a(test t(test t(ort)))
+              -->test.a(test t(test t(test t=ort)))
+	 /******************************************/
+	
+	
 	Person(const Person &p)
 	{
 		m_age = p.m_age;
@@ -49,3 +66,6 @@ int main()
 {
 	test01();
 }
+
+
+
