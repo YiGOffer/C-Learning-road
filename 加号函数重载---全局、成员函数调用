@@ -1,0 +1,50 @@
+#include<iostream>
+#include<string>
+using namespace std;
+//定义一个杯子计数类
+class CupNub
+{
+public:
+	//定义无参构造函数
+	CupNub() {};
+	//定义有参构造函数
+	CupNub(int Type,int Nub):m_CupType(Type),m_Nub(Nub)//形参的初始化操作!
+	{
+	}
+	//加号函数的重载，记住operator+  且注意传入引用
+ //   CupNub operator+(CupNub &p)
+	//{
+	//	CupNub temp;//一定要新建一个temp对象接受加号操作后的结果
+	//	temp.m_CupType=this->m_CupType + p.m_CupType;
+	//	temp.m_Nub=this->m_Nub + p.m_Nub;
+	//	return temp;
+	//}
+
+
+	int m_CupType;
+	int m_Nub;
+};
+
+//加号全局函数
+CupNub operator+(CupNub &p1, CupNub &p2)
+{
+	CupNub temp;//一定要新建一个temp对象接受加号操作后的结果
+	temp.m_CupType = p1.m_CupType + p2.m_CupType;
+	temp.m_Nub = p1.m_Nub + p2.m_Nub;
+	return temp;
+}
+
+int main()
+{
+	CupNub c1(10, 10);
+	CupNub c2(20, 20);
+	CupNub c3 = c1 + c2;
+	//CupNub c3=c1.operator+(c2);  类中加号成员函数重载实质
+	//CupNub c3=operator+(c1,c2);  类外加号全局函数重载实质
+	cout << "c3的类型编号计数为" << c3.m_CupType << endl;
+	cout << "c3的编号计数为" << c3.m_Nub << endl;
+	
+	//运算符发生重载，函数可不可以发生重载？  
+	//答案是：可以，改变形参的类型、数量、顺序即可 如CupNub operator+(CupNub &p1,int A)
+
+}
