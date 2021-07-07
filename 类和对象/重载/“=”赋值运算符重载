@@ -1,0 +1,111 @@
+#include<iostream>
+#include<string>
+using namespace std;
+//新建一个Person类
+class Person
+{
+	
+public:
+	Person()
+	{
+
+	};
+	Person(char * Name,int Age) 
+	{
+		this->m_Name = new char[strlen(Name)+1];
+		strcpy(this->m_Name ,Name);
+		this->m_Age = Age;
+	};
+	Person& operator=(Person &p)
+	{
+		if(this->m_Name!=NULL)
+		{
+			delete [] this->m_Name;
+			this->m_Name = NULL;
+		}
+		this->m_Name = new char[strlen(p.m_Name) + 1];
+		strcpy(this->m_Name, p.m_Name);
+		this->m_Age = p.m_Age;
+		return *this;//this指针解引用 指当前对象
+	}
+
+	Person (const Person &p)
+	{
+		this->m_Name = new char[strlen(p.m_Name) + 1];
+		strcpy(this->m_Name, p.m_Name);
+		this->m_Age = p.m_Age;
+		
+	}
+	~Person()
+	{
+		cout << "P的析构函数调用" << endl;
+		if (this->m_Name != NULL)
+		{
+			delete [] this->m_Name;
+			this->m_Name = NULL;
+
+		}
+
+	}
+	
+
+
+void showm_Name()
+{
+	cout << "m_Name=" <<this->m_Name << endl;
+}
+void showm_Age()
+{
+	cout << "m_Age=" << this->m_Age << endl;
+}
+private:
+	char * m_Name;
+	int m_Age;
+	
+};
+void test01()
+{
+	Person p1("TOM",17);
+	Person p2("Jerry",18);
+	p2 = p1;//会出错，因为值拷贝即浅拷贝，在析构函数释放内存时会重复释放相同地址故此时需要对赋值运算符“=”进行重载
+	p1.showm_Name();
+	p2.showm_Name();
+	p1.showm_Age();
+	p2.showm_Age();
+
+
+}
+void test02()
+{
+	Person p1("TOMA", 17);
+	Person p2("Jerry", 18);
+	Person p3("Aerry", 18);
+	p2 = p3=p1;//不返回对象的引用，会出错，故运算符重载函数中 void改成Person&
+	p1.showm_Name();
+	p2.showm_Name();
+	p3.showm_Name();
+
+	p1.showm_Age();
+	p2.showm_Age();
+	p3.showm_Age();
+
+
+
+}
+void test03()
+{
+	Person p1("TOMA", 17);
+
+	Person p2 = p1;//从无到有 不用像重载赋值运算符 那样检测空间。=重载函数已经不行还需提供拷贝构造函数。
+	p2.showm_Name();
+	p2.showm_Age();
+
+
+
+}
+int main()
+{
+	//test01();//Person对象p1、p2 ----   p1=p2
+	//test02();//p2=p3=p1;//重载函数返回引用
+	test03();
+}
