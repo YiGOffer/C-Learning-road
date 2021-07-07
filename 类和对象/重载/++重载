@@ -1,0 +1,73 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Person
+{
+	friend ostream& operator<<(ostream &cout, Person &p);
+public:
+	Person(int A, int B) :m_A(A), m_B(B)
+	{
+
+	}
+	//void operator<<(Person &p)  //尝试用类内成员函数重载"<<",但失败，因为调用实质是 p.operator<<(cout),简化后是 p<<cout 。 但我们要求 cout<<p 
+	//{
+	//	cout << m_A << m_B << endl;
+	//}
+	//前置++运算符的重载
+	Person& operator++() //如果不返回引用那么就会新建一个对象，两次相加会不一样
+	{
+		++m_A;
+		++m_B;
+		return *this;
+	}
+	//后置++运算符的重载
+	Person operator++(int)//跟前置++有区别，返回的是值不是引用 注意区别 
+	{
+		Person temp = *this  ;//用this指针解引用 记录初始状态
+		this->m_A++;
+		this->m_B++;
+		return *this;
+	}
+private:
+	int m_A;
+	int m_B;
+};
+//只有用全局函数去重载"<<"才能成功
+
+//
+//
+////假定一个void返回值重载函数，但调用只能运行cout<<p1 ,不能运行cout<<p1<<endl;  原因是没有返回一个cout。
+//void operator<<(ostream &cout,Person &p)//查看定义可以发现 extern ostream cout，即cout 是 ostream的一个对象，且全局只有一个，所以cout的类型是 ostream &。注意要传入引用。
+//{
+//	cout <<"m_A="<<p.m_A <<" m_B="<< p.m_B << endl;
+//}
+
+
+
+//cout是ostream的一个对象，全局只有一个。故返回值 为 ostream &
+ostream& operator<<(ostream &cout, Person &p)//查看定义可以发现 extern ostream cout，即cout 是 ostream的一个对象，且全局只有一个，所以cout的类型是 ostream &。注意要传入引用。
+{
+	cout << "m_A=" << p.m_A << " m_B=" << p.m_B << endl;
+	return cout;
+}
+void test02()
+{
+	Person p2(10, 20);
+	cout << p2 << endl;
+	cout << p2++ << endl;
+}
+void test01()
+{
+	Person p1(10, 20);
+	cout << p1 << endl;
+	cout << ++(++p1) << endl;//若不返回引用这段代码还是12和22
+	cout << (++p1) << endl;//若不返回引用&这段代码还是13和23
+	cout << p1 << endl; //若不返回引用这段代码是12和22
+}
+int main()
+{
+	test02();
+	//test01();
+	return 0;
+}
