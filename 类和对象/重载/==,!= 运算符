@@ -1,0 +1,104 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Person
+{
+
+public:
+	Person()
+	{
+
+	};
+	Person(char * Name, int Age)
+	{
+		this->m_Name = new char[strlen(Name) + 1];
+		strcpy(this->m_Name, Name);
+		this->m_Age = Age;
+	};
+	Person& operator=(Person &p)
+	{
+		if (this->m_Name != NULL)
+		{
+			delete[] this->m_Name;
+			this->m_Name = NULL;
+		}
+		this->m_Name = new char[strlen(p.m_Name) + 1];
+		strcpy(this->m_Name, p.m_Name);
+		this->m_Age = p.m_Age;
+		return *this;//this指针解引用 指当前对象
+	}
+	bool operator==(Person &p) //重载函数
+	{
+		if (this->m_Age == p.m_Age&&this->m_Name == p.m_Name)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+
+	bool operator!=(Person &p)  //重载函数
+	{
+		if (this->m_Age == p.m_Age&&this->m_Name == p.m_Name)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+	Person(const Person &p)
+	{
+		this->m_Name = new char[strlen(p.m_Name) + 1];
+		strcpy(this->m_Name, p.m_Name);
+		this->m_Age = p.m_Age;
+
+	}
+	~Person()
+	{
+		cout << "P的析构函数调用" << endl;
+		if (this->m_Name != NULL)
+		{
+			delete[] this->m_Name;
+			this->m_Name = NULL;
+
+		}
+
+	}
+
+
+
+	void showm_Name()
+	{
+		cout << "m_Name=" << this->m_Name << endl;
+	}
+	void showm_Age()
+	{
+		cout << "m_Age=" << this->m_Age << endl;
+	}
+private:
+	char * m_Name;
+	int m_Age;
+
+};
+int main()
+{
+	Person p1("TOMA", 18);
+	Person p2("Jerry", 18);
+	
+	if (p1 == p2)//对== 重载 返回bool
+	{
+		cout << " =" << endl;
+	}
+	else
+		cout << "!=" << endl;
+
+	if (p1 != p2)//对！=重载 返回bool
+	{
+		cout << " =" << endl;
+	}
+	else
+		cout << "!=" << endl;
+}
