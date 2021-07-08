@@ -1,0 +1,62 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Person
+{
+
+public:
+	Person()
+	{
+
+	};
+	Person(char * Name, int Age)
+	{
+		this->m_Name = new char[strlen(Name) + 1];
+		strcpy(this->m_Name, Name);
+		this->m_Age = Age;
+	};
+
+	void operator()(int A,int B)//函数调用运算符重载
+	{
+		cout << A + B << endl;
+	}
+
+	Person(const Person &p)
+	{
+		this->m_Name = new char[strlen(p.m_Name) + 1];
+		strcpy(this->m_Name, p.m_Name);
+		this->m_Age = p.m_Age;
+
+	}
+	~Person()
+	{
+		cout << "P的析构函数调用" << endl;
+		if (this->m_Name != NULL)
+		{
+			delete[] this->m_Name;
+			this->m_Name = NULL;
+
+		}
+
+	}
+
+
+
+	void showm_Name()
+	{
+		cout << "m_Name=" << this->m_Name << endl;
+	}
+	void showm_Age()
+	{
+		cout << "m_Age=" << this->m_Age << endl;
+	}
+private:
+	char * m_Name;
+	int m_Age;
+
+};
+int main ()
+{
+	Person a;
+	a(1, 2);//伪函数 实质是一个函数对象
+}
