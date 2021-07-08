@@ -1,0 +1,41 @@
+#include"Mystring.h"
+void test01()
+{
+	
+	MyString p1("abc");
+	MyString str("bcd");
+	cout << p1 << endl;
+	cout << "(右移位运算符重载)请输入修改的值:"<< endl;
+	cin >> p1;
+	cout << p1 << endl;
+}
+void test02()
+{
+	MyString str1("abc");
+	MyString str2("bcd");
+
+	MyString str3 = str1 + str2;//重载+
+	MyString str6 = str1 + "z";//重载+
+	cout << "加号重载1 str3=" << str3 << endl;
+	cout << "加号重载2 str6=" << str6 << endl;
+	
+
+	MyString str4;//默认执行，浅拷贝 会出错。要重载=，进行深拷贝；
+	MyString str5;
+	str4 = str1;
+	str5 = "add";
+	cout << "等号重载1 str4="<<str4 << endl;
+	cout << "等号重载2 str5=" << str5 << endl;
+
+
+
+	str1[0] = 'z';//重载【】
+	cout << "[]重载1 str1[0]=" << str1[0] << endl;
+	cout << "[]重载1 后的 str1=" << str1<< endl;
+	
+}
+int main()
+{
+	//test01();
+	test02();
+}
