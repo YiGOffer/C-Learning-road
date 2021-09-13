@@ -1,2 +1,3 @@
 # C-Learning-road
-keep going！！
+keep going!
+never give up
