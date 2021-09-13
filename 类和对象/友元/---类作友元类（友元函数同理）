@@ -36,7 +36,7 @@ Goodgay::Goodgay()
 void Goodgay::visit()
 {
 	cout << "好基友正在访问 " << this->m_building->sittingRoom<<endl;
-	cout << "好基友正在访问 " << this->m_building->bedRoom << endl;
+	cout << "好基友正在访问啊" << this->m_building->bedRoom << endl;
 }
 
 int main()
